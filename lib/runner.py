@@ -1,10 +1,11 @@
 import os
 import logging
 import requests
+from datetime import datetime
 
 from logging.handlers import RotatingFileHandler
 
-from lib.utils import is_internet_available, start_time
+from lib.utils import write_to_json, is_internet_available, start_time, calculate_request_time
 
 this_dir = os.path.dirname(__file__)
 
@@ -53,29 +54,26 @@ def run_action(settings, action_slug):
             payload
         )
 
-    #     elapsed_time = calculate_request_time(st)
+        elapsed_time = calculate_request_time(st)
 
-    #     date_now = datetime.now()
-    #     manifest_path = os.path.join(settings.data_dir, f"{name}_manifest.json")
+        date_now = datetime.now()
+        # manifest_path = os.path.join(settings.data_dir, f"{name}_manifest.json")
 
-    #     data = {
-    #         "system_name": settings.name,
-    #         "system_slug": settings.slug,
-    #         "elapsed_time": elapsed_time,
-    #         "timestamp": date_now.timestamp(),
-    #         "datetime": date_now.strftime("%d-%m-%Y %H:%M")}
+        data = {
+            "system_name": settings.name,
+            "system_slug": settings.slug,
+            "elapsed_time": elapsed_time,
+            "timestamp": date_now.timestamp(),
+            "datetime": date_now.strftime("%d-%m-%Y %H:%M")}
 
-    #     # Update recorded results - this is to compare against future results.
-    #     write_to_json(results_path, results)
+        # # Manifest
+        # write_to_json(manifest_path, {
+        #     **web_task,
+        #     **data
+        # })
 
-    #     # Manifest
-    #     write_to_json(manifest_path, {
-    #         **web_task,
-    #         **data
-    #     })
-
-    #     # System
-    #     write_to_json(settings.service_path, data)
+        # System
+        write_to_json(settings.service_path, data)
 
     except Exception as e:
         logging.error("Action failed: %s - %s", action_slug, e)

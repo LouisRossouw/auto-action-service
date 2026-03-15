@@ -1,0 +1,12 @@
+services:
+  auto-action-service:
+    build: .
+    image: auto-action-service
+    volumes:
+      - ./data:/app/data
+      - ./configs:/app/configs
+    restart: unless-stopped
+    ports:
+      - "5004:5004"
+      # environment:
+      #   - ENV_VAR=your_value
