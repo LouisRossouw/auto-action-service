@@ -87,5 +87,5 @@ OR intervals:
 
 Alternatively, use Docker:
 ```bash
-docker-compose up -d
+docker compose up -d --build
 ```
