@@ -1,123 +1,81 @@
 # auto-action-service
 
-Work-in-progress automation service for triggering HTTP actions on devices using scheduled jobs.
+WIP!
 
-This service allows you to control devices (such as WLED or ESP32 devices) using simple JSON configuration files.
-Schedules are handled using APScheduler and can run using **cron** or **interval** triggers.
+A lightweight automation service for triggering HTTP actions on devices using scheduled jobs.
 
----
+## Overview
 
-# How It Works
-
-The service uses three configuration files:
-
-```
-configs/
- ├─ devices.json
- ├─ actions.json
- └─ schedules.json
-```
-
-Each layer has a different responsibility.
-
-| File               | Purpose                                          |
-| ------------------ | ------------------------------------------------ |
-| **devices.json**   | Defines the devices and their base URLs          |
-| **actions.json**   | Defines commands that can be executed on devices |
-| **schedules.json** | Defines when actions should run                  |
-
-The scheduler loads these configs at startup and automatically creates jobs.
+The service core is driven by four JSON configuration files in the `configs/` directory.
 
 ---
 
-# Devices
+## Configurations
 
-Devices represent the physical hardware or services that will receive HTTP requests.
+### 1. Main Settings (`config.json`)
+Defines the service environment and notification settings.
 
-Example:
+- `host` / `port`: The address and port the API service runs on.
+- `notifications`: Boolean to enable/disable Telegram alerts.
+- `tele_jam_api_baseurl`: Endpoint for the notification relay.
+
+### 2. Devices (`devices.json`)
+Lists the hardware targets available for actions.
 
 ```json
 [
   {
-    "slug": "minigt-desk-display",
-    "type": "wled",
-    "base_url": "http://10.0.0.156"
+    "slug": "living-room-wled",
+    "base_url": "http://10.0.0.156",
+    "type": "wled"
   }
 ]
 ```
 
-Fields:
-
-| Field    | Description                                   |
-| -------- | --------------------------------------------- |
-| slug     | Unique identifier for the device              |
-| type     | Device type (optional, used for organization) |
-| base_url | Base URL used when building requests          |
-
----
-
-# Actions
-
-Actions define **what command to execute** on a device.
-
-Example:
+### 3. Actions (`actions.json`)
+Defines specific HTTP commands to send to devices.
 
 ```json
 [
   {
-    "slug": "display-on",
-    "device": "minigt-desk-display",
+    "slug": "lights-on",
+    "device": "living-room-wled",
     "method": "POST",
     "route": "/json/state",
-    "payload": {
-      "on": true
-    }
-  },
-  {
-    "slug": "display-off",
-    "device": "minigt-desk-display",
-    "method": "POST",
-    "route": "/json/state",
-    "payload": {
-      "on": false
-    }
+    "payload": { "on": true }
   }
 ]
 ```
 
-Fields:
-
-| Field   | Description                               |
-| ------- | ----------------------------------------- |
-| slug    | Unique identifier for the action          |
-| device  | Device slug the action belongs to         |
-| method  | HTTP method (GET, POST, PUT, etc.)        |
-| route   | Endpoint path appended to device base_url |
-| payload | Optional JSON payload                     |
-
-The service builds the final request like:
-
-```
-{device.base_url}{route}
-```
-
-Example:
-
-```
-http://10.0.0.156/json/state
-```
-
----
-
-# Schedules
-
-Schedules determine **when actions are executed**.
-
-Example:
+### 4. Schedules (`schedules.json`)
+Determines when actions are triggered (supports `cron` and `interval`).
 
 ```json
 [
   {
-    "name": "display-on-evening",
-    "action": "di
+    "name": "sunset-on",
+    "action": "lights-on",
+    "trigger": "cron",
+    "hour": 18,
+    "minute": 0
+  }
+]
+```
+
+---
+
+## Setup & Running
+
+1. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. **Launch**:
+   ```bash
+   python main.py
+   ```
+
+Alternatively, use Docker:
+```bash
+docker-compose up -d
 ```
