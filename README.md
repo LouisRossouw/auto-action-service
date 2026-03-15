@@ -1,8 +1,9 @@
 # auto-action-service
 
-Not sure yet!
+WIP
 
-Intervals:
+Intervals example:
+```
 [
 
     {
@@ -19,7 +20,11 @@ Intervals:
     }
 
 ]
+```
 
+different triggers example:
+
+```
 [
 {
 "name": "display-on-evening",
@@ -64,3 +69,4 @@ Intervals:
 "minutes": 10
 }
 ]
+```
