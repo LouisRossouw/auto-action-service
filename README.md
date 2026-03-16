@@ -58,10 +58,20 @@ Determines when actions are triggered (supports `cron` and `interval`).
     "trigger": "cron",
     "hour": 18,
     "minute": 0
+    or "day_of_week": "sun", # mon-fri
   }
 ]
 ```
-
+OR intervals:
+```json
+[
+  {
+    ...rest
+    "trigger": "interval",
+    "minutes": 10 ### seconds / minutes / hours / days
+  }
+]
+```
 ---
 
 ## Setup & Running
@@ -77,5 +87,5 @@ Determines when actions are triggered (supports `cron` and `interval`).
 
 Alternatively, use Docker:
 ```bash
-docker-compose up -d
+docker compose up -d --build
 ```
