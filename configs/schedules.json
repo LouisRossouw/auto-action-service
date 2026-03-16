@@ -3,14 +3,14 @@
         "name": "display-on-evening",
         "action": "display-on",
         "trigger": "cron",
-        "hour": 18,
+        "hour": 16,
         "minute": 0
     },
     {
         "name": "display-off-night",
         "action": "display-off",
         "trigger": "cron",
-        "hour": 23,
+        "hour": 21,
         "minute": 59
     }
 ]
