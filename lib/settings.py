@@ -49,9 +49,6 @@ class Settings():
     def get_setting(self, key):
         return read_json(self.config_path).get(key)
 
-    def get_actions(self):
-        return read_json(self.actions_path)
-
     def update_actions(self, data):
         return write_to_json(self.actions_path, data)
 

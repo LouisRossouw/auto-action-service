@@ -54,12 +54,6 @@ def status_scheduler():
     return {"status": "TODO; Get Active jobs."}
 
 
-def update_tasks(settings, data):
-    # TODO; Restart the service so the tasks can be re-created.
-    # Prompt user to restart in the home-pie app.
-    return settings.update_tasks(data)
-
-
 def get_last_results():
     # TODO; This will not work as results are saved individually for each task, i.e. sounds_limited_results.json
     # results_exists = os.path.exists(self.results_path)

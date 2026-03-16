@@ -43,13 +43,17 @@ class ServiceApi:
         def _patch_config(data: dict = Body(...)):
             return self.settings.update_config(data)
 
-        @self.app.get("/tasks")
-        def _get_tasks():
-            return self.settings.get_tasks()
+        @self.app.get("/actions")
+        def _get_actions():
+            return self.settings.actions
 
-        @self.app.patch("/tasks")
-        def _update_tasks(data: list = Body(...)):
-            return api.update_tasks(self.settings, data)
+        @self.app.get("/devices")
+        def _get_devices():
+            return self.settings.devices
+
+        @self.app.get("/schedules")
+        def _get_schedules():
+            return self.settings.schedules
 
         @self.app.get("/service/status")
         def _status_scheduler():
