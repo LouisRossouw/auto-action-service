@@ -56,21 +56,28 @@ def run_action(settings, action_slug):
 
         elapsed_time = calculate_request_time(st)
 
+        name = action_slug.replace("-", "_")
+
         date_now = datetime.now()
-        # manifest_path = os.path.join(settings.data_dir, f"{name}_manifest.json")
+        manifest_path = os.path.join(
+            settings.data_dir, f"{name}_manifest.json")
 
         data = {
+            "success": response.ok,
             "system_name": settings.name,
             "system_slug": settings.slug,
             "elapsed_time": elapsed_time,
             "timestamp": date_now.timestamp(),
-            "datetime": date_now.strftime("%d-%m-%Y %H:%M")}
+            "datetime": date_now.strftime("%d-%m-%Y %H:%M")
+        }
 
-        # # Manifest
-        # write_to_json(manifest_path, {
-        #     **web_task,
-        #     **data
-        # })
+        # Manifest
+        write_to_json(manifest_path, {
+            "success": response.ok,
+            ** action,
+            **device,
+            **data,
+        })
 
         # System
         write_to_json(settings.service_path, data)
