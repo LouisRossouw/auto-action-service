@@ -3,6 +3,7 @@
         "slug": "display-on",
         "device": "minigt-desk-display",
         "route": "/json/state",
+        "active": true,
         "method": "POST",
         "payload": {
             "on": true
@@ -12,6 +13,7 @@
         "slug": "display-off",
         "device": "minigt-desk-display",
         "route": "/json/state",
+        "active": true,
         "method": "POST",
         "payload": {
             "on": false
