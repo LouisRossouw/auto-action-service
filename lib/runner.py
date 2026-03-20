@@ -31,13 +31,18 @@ def run_action(settings, action_slug):
     action = settings.actions_by_slug[action_slug]
     device = settings.devices_by_slug[action["device"]]
 
+    if not device["active"] or not action['active']:
+        logging.info("%s - Device not active", action_slug)
+        return
+
     url = f"{device['base_url']}{action['route']}"
 
     method = action.get("method", "GET")
     payload = action.get("payload")
 
-    try:
+    success = False
 
+    try:
         response = requests.request(
             method=method,
             url=url,
@@ -46,7 +51,6 @@ def run_action(settings, action_slug):
         )
 
         response.raise_for_status()
-
         logging.info(
             "Executed %s -> %s payload=%s",
             action_slug,
@@ -54,36 +58,46 @@ def run_action(settings, action_slug):
             payload
         )
 
-        elapsed_time = calculate_request_time(st)
-
-        name = action_slug.replace("-", "_")
-
-        date_now = datetime.now()
-        manifest_path = os.path.join(
-            settings.data_dir, f"{name}_manifest.json")
-
-        data = {
-            "success": response.ok,
-            "system_name": settings.name,
-            "system_slug": settings.slug,
-            "elapsed_time": elapsed_time,
-            "timestamp": date_now.timestamp(),
-            "datetime": date_now.strftime("%d-%m-%Y %H:%M")
-        }
-
-        # Manifest
-        write_to_json(manifest_path, {
-            "success": response.ok,
-            ** action,
-            **device,
-            **data,
-        })
-
-        # System
-        write_to_json(settings.service_path, data)
-
+        success = response.ok
     except Exception as e:
         logging.error("Action failed: %s - %s", action_slug, e)
+
+        # Alert the user via Telegram.
+        if settings.notifications:
+            url = f"{settings.tele_jam_api_baseurl}/notify/bots/{settings.notify_bot}"
+            requests.post(url=url, json=[f"🧩 {settings.name}:\n\n", (
+                f"❌ Failed: {action["device"]} - {action['slug']}\n"
+                f"❔ Is service online?🤔"
+                f"🔗 url {url}\n"
+            )])
+
+    elapsed_time = calculate_request_time(st)
+
+    name = action_slug.replace("-", "_")
+
+    date_now = datetime.now()
+    manifest_path = os.path.join(
+        settings.data_dir, f"{name}_manifest.json")
+
+    # System
+    write_to_json(settings.service_path, data)
+
+    data = {
+        "success": success,
+        "system_name": settings.name,
+        "system_slug": settings.slug,
+        "elapsed_time": elapsed_time,
+        "timestamp": date_now.timestamp(),
+        "datetime": date_now.strftime("%d-%m-%Y %H:%M"),
+    }
+
+    # Manifest
+    write_to_json(manifest_path, {
+        "success": response.ok,
+        ** action,
+        **device,
+        **data,
+    })
 
 
 if __name__ == "__main__":
