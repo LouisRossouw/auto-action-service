@@ -75,7 +75,7 @@ def run_action(settings, action_slug):
 
     date_now = datetime.now()
     manifest_path = os.path.join(
-        settings.data_dir, f"{action_slug.replace("-", "_")}_manifest.json")
+        settings.data_dir, f"{action_slug.replace('-', '_')}_manifest.json")
 
     # System
     write_to_json(settings.service_path, data)
