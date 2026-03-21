@@ -66,7 +66,7 @@ def run_action(settings, action_slug):
         if settings.notifications:
             url = f"{settings.tele_jam_api_baseurl}/notify/bots/{settings.notify_bot}"
             requests.post(url=url, json=[f"🧩 {settings.name}:\n\n", (
-                f"❌ Failed: {action["device"]} - {action['slug']}\n"
+                f"❌ Failed: {action['device']} - {action['slug']}\n"
                 f"❔ Is service online?🤔"
                 f"🔗 url {url}\n"
             )])
