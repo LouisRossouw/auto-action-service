@@ -4,5 +4,11 @@
         "base_url": "http://10.0.0.156",
         "type": "wled",
         "active": true
+    },
+    {
+        "slug": "process-meter",
+        "base_url": "http://10.0.0.152:5001",
+        "type": "api",
+        "active": true
     }
 ]
