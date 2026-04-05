@@ -77,9 +77,6 @@ def run_action(settings, action_slug):
     manifest_path = os.path.join(
         settings.data_dir, f"{action_slug.replace('-', '_')}_manifest.json")
 
-    # System
-    write_to_json(settings.service_path, data)
-
     data = {
         "success": success,
         "system_name": settings.name,
@@ -88,6 +85,9 @@ def run_action(settings, action_slug):
         "timestamp": date_now.timestamp(),
         "datetime": date_now.strftime("%d-%m-%Y %H:%M"),
     }
+
+    # System
+    write_to_json(settings.service_path, data)
 
     # Manifest
     write_to_json(manifest_path, {
