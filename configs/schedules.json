@@ -12,5 +12,11 @@
         "trigger": "cron",
         "hour": 21,
         "minute": 59
+    },
+    {
+        "name": "process-meter",
+        "action": "process-meter",
+        "trigger": "interval",
+        "hours": 1
     }
 ]

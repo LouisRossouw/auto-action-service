@@ -18,5 +18,13 @@
         "payload": {
             "on": false
         }
+    },
+    {
+        "slug": "process-meter",
+        "device": "process-meter-api",
+        "route": "/process-meter",
+        "active": true,
+        "method": "GET",
+        "payload": {}
     }
 ]
