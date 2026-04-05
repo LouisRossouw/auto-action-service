@@ -21,7 +21,7 @@
     },
     {
         "slug": "process-meter",
-        "device": "process-meter-api",
+        "device": "process-meter",
         "route": "/process-meter",
         "active": true,
         "method": "GET",
