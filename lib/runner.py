@@ -47,10 +47,9 @@ def run_action(settings, action_slug):
             method=method,
             url=url,
             json=payload,
-            timeout=5
+            timeout=settings.timeout
         )
 
-        response.raise_for_status()
         logging.info(
             "Executed %s -> %s payload=%s",
             action_slug,
@@ -58,17 +57,19 @@ def run_action(settings, action_slug):
             payload
         )
 
-        success = response.ok
+        success = True
+        response.raise_for_status()
+
     except Exception as e:
         logging.error("Action failed: %s - %s", action_slug, e)
 
         # Alert the user via Telegram.
         if settings.notifications:
-            url = f"{settings.tele_jam_api_baseurl}/notify/bots/{settings.notify_bot}"
-            requests.post(url=url, json=[f"🧩 {settings.name}:\n\n", (
+            tele_url = f"{settings.tele_jam_api_baseurl}/notify/bots/{settings.notify_bot}"
+            requests.post(url=tele_url, json=[f"🎆 {settings.name}:\n\n", (
                 f"❌ Failed: {action['device']} - {action['slug']}\n"
-                f"❔ Is service online?🤔"
-                f"🔗 url {url}\n"
+                f"❔ Is service online?🤔\n"
+                f"🔗 {url}\n"
             )])
 
     elapsed_time = calculate_request_time(st)
