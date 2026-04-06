@@ -22,6 +22,7 @@ class Settings():
         self.slug = self.config.get("slug")
         self.host = self.config.get("host")
         self.port = self.config.get("port")
+        self.timeout = self.config.get("timeout")
 
         self.service_path = os.path.join(self.data_dir,  f"{self.slug.replace('-', '_')}.json")  # nopep8
 
@@ -68,6 +69,7 @@ class Settings():
         self.slug = self.config.get("slug")
         self.host = self.config.get("host")
         self.port = self.config.get("port")
+        self.timeout = self.config.get("timeout")
 
         self.service_path = os.path.join(self.data_dir,  f"{self.slug.replace('-', '_')}.json")  # nopep8
 
