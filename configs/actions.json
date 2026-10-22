@@ -26,5 +26,19 @@
         "active": true,
         "method": "GET",
         "payload": {}
+    },
+    {
+        "slug": "statements-current",
+        "device": "data-ingest",
+        "route": "sync/statements/current?max_results=3",
+        "active": false,
+        "method": "GET"
+    },
+    {
+        "slug": "statements-credit",
+        "device": "data-ingest",
+        "route": "sync/statements/credit?max_results=3",
+        "active": false,
+        "method": "GET"
     }
 ]

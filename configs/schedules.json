@@ -18,5 +18,21 @@
         "action": "process-meter",
         "trigger": "interval",
         "hours": 1
+    },
+    {
+        "name": "statements-current-monthly",
+        "action": "statements-current",
+        "trigger": "cron",
+        "day": 1,
+        "hour": 11,
+        "minute": 0
+    },
+    {
+        "name": "statements-credit-monthly",
+        "action": "statements-credit",
+        "trigger": "cron",
+        "day": 1,
+        "hour": 11,
+        "minute": 10
     }
 ]

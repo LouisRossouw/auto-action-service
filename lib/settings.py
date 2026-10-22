@@ -1,10 +1,12 @@
 import os
+from dotenv import load_dotenv
 from lib.utils import read_json, write_to_json
 
 
 class Settings():
     def __init__(self):
         self.root_path = os.path.dirname(os.path.dirname(__file__))
+        load_dotenv(os.path.join(self.root_path, ".env"))
         self.configs_dir = os.path.join(self.root_path, "configs")
         self.data_dir = os.path.join(self.root_path, "data")
 

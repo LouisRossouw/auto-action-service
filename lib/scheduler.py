@@ -29,6 +29,7 @@ class TaskScheduler:
                     "cron",
                     hour=schedule.get("hour"),
                     minute=schedule.get("minute"),
+                    day=schedule.get("day"),
                     day_of_week=schedule.get("day_of_week"),
                     args=[self.settings, schedule["action"]],
                     id=schedule["name"]
