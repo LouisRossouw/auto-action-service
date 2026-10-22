@@ -39,6 +39,7 @@ def run_action(settings, action_slug):
 
     method = action.get("method", "GET")
     payload = action.get("payload")
+    headers = {k: os.path.expandvars(v) for k, v in device.get("headers", {}).items()}
 
     success = False
 
@@ -47,6 +48,7 @@ def run_action(settings, action_slug):
             method=method,
             url=url,
             json=payload,
+            headers=headers,
             timeout=settings.timeout
         )
 
@@ -94,7 +96,7 @@ def run_action(settings, action_slug):
     write_to_json(manifest_path, {
         "success": response.ok,
         ** action,
-        **device,
+        **{k: v for k, v in device.items() if k != "headers"},
         **data,
     })
 

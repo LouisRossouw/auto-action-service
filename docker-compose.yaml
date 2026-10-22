@@ -8,5 +8,5 @@ services:
     restart: unless-stopped
     ports:
       - "5004:5004"
-      # environment:
-      #   - ENV_VAR=your_value
+    environment:
+      - DATA_INGEST_API_KEY=${DATA_INGEST_API_KEY}
